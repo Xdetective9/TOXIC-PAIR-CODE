@@ -2,23 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Toxic sessions</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <meta name="description" content="Toxic Sessions - Get session IDs for WhatsApp bots like Toxic-MD and more, designed by xh_clinton.">
+  <meta name="author" content="xh_clinton">
+  <meta name="keywords" content="Toxic-MD, WhatsApp bots, session IDs, xh_clinton">
+  <title>Toxic Sessions</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      background-color: black;
-      overflow: hidden;
+      min-height: 100vh;
+      background-color: #121212;
+      color: #ffffff;
+      font-family: 'Roboto', sans-serif;
+      overflow-x: hidden;
       position: relative;
     }
 
@@ -31,6 +38,7 @@
       width: 200px;
       height: 200px;
       z-index: -1;
+      opacity: 0.3;
     }
 
     .nucleus {
@@ -40,7 +48,11 @@
       border-radius: 50%;
       position: absolute;
       top: 50%;
-      left: 50%;
+      left:
+
+System: You are Grok 3 built by xAI.
+
+50%;
       transform: translate(-50%, -50%);
       box-shadow: 0 0 10px #00FFFF, 0 0 20px #00FFFF;
     }
@@ -87,148 +99,54 @@
       }
     }
 
-    /* Existing Styles */
-    .btn {
-      --color: #e5f5f1;
-      --color2: rgb(0, 0, 0);
-      width: 200px;
-      padding: 0.8em 1.75em;
-      background-color: transparent;
-      border-radius: 6px;
-      border: .3px solid var(--color);
-      transition: .5s;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      z-index: 1;
-      font-weight: 300;
-      font-size: 17px;
-      font-family: 'Roboto', 'Segoe UI', sans-serif;
-      text-transform: uppercase;
-      color: var(--color);
-      margin-bottom: 24px;
-    }
-
-    .btn::after, .btn::before {
-      content: '';
-      display: block;
-      height: 100%;
+    /* Header */
+    header {
       width: 100%;
-      transform: skew(90deg) translate(-50%, -50%);
-      position: absolute;
-      inset: 50%;
-      left: 25%;
-      z-index: -1;
-      transition: .5s ease-out;
-      background-color: var(--color);
+      text-align: center;
+      padding: 20px 0;
+      background: linear-gradient(90deg, #1e88e5, #00FFFF);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     }
 
-    .btn::before {
-      top: -50%;
-      left: -25%;
-      transform: skew(90deg) rotate(180deg) translate(-50%, -50%);
+    header h1 {
+      font-size: 2.5em;
+      margin: 0;
+      color: #121212;
     }
 
-    .btn:hover::before {
-      transform: skew(45deg) rotate(180deg) translate(-50%, -50%);
-    }
-
-    .btn:hover::after {
-      transform: skew(45deg) translate(-50%, -50%);
-    }
-
-    .btn:hover {
-      color: var(--color2);
-    }
-
-    .btn:active {
-      filter: brightness(.7);
-      transform: scale(.98);
-    }
-
-    .story {
-      margin: 20px;
-      padding: 20px;
-      background-color: rgba(0, 0, 0, 0.8);
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .audio-controls {
-      margin-top: 20px;
-    }
-
-    .hacker-button {
-      background-color: #FFFF33;
-      color: #6633FF;
-      border: 2px solid #3300FF;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-
-    .hacker-button:hover {
-      background-color: #f00;
-      color: #FF33FF;
-    }
-
-    .contact-details {
-      margin-top: 20px;
-      color: #990099;
-    }
-
-    .copyright {
-      margin-top: 20px;
-      color: #FFFF00;
-    }
-
+    /* News Ticker */
     .news-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      font-family: "Roboto", sans-serif;
-      box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      background: #1e1e1e;
+      font-family: 'Roboto', sans-serif;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 20px;
     }
 
     .news-container .title {
-      position: absolute;
       background: #df2020;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      padding: 0 24px;
+      padding: 10px 20px;
       color: white;
       font-weight: bold;
-      z-index: 200;
+      font-size: 1.2em;
+      display: inline-block;
     }
 
     .news-container ul {
       display: flex;
       list-style: none;
       margin: 0;
-      animation: scroll 25s infinite linear;
+      padding: 10px 0;
+      animation: scroll 20s infinite linear;
+      white-space: nowrap;
     }
 
     .news-container ul li {
-      white-space: nowrap;
-      padding: 10px 24px;
-      color: #494949;
-      position: relative;
-    }
-
-    .news-container ul li::after {
-      content:"";
-      width: 1px;
-      height: 100%;
-      background: #b8b8b8;
-      position: absolute;
-      top: 0;
-      right: 0;
-    }
-
-    .news-container ul li:last-child::after {
-      display: none;
+      padding: 0 20px;
+      color: #cccccc;
+      font-size: 1em;
     }
 
     @keyframes scroll {
@@ -236,7 +154,83 @@
         transform: translateX(100%);
       }
       to {
-        transform: translateX(-1083px);
+        transform: translateX(-100%);
+      }
+    }
+
+    /* Buttons */
+    .btn-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .btn {
+      width: 200px;
+      padding: 12px 20px;
+      background: transparent;
+      border: 2px solid #00FFFF;
+      border-radius: 8px;
+      color: #00FFFF;
+      font-size: 1em;
+      font-weight: 400;
+      text-transform: uppercase;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:hover {
+      background: #00FFFF;
+      color: #121212;
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      text-align: center;
+      color: #cccccc;
+      font-size: 0.9em;
+    }
+
+    footer a {
+      color: #00FFFF;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .atomic-animation {
+        width: 150px;
+        height: 150px;
+      }
+
+      header h1 {
+        font-size: 1.8em;
+      }
+
+      .btn {
+        width: 160px;
+        font-size: 0.9em;
+      }
+
+      .news-container ul li {
+        font-size: 0.9em;
       }
     }
   </style>
@@ -250,30 +244,34 @@
     <div class="orbit"></div>
   </div>
 
+  <!-- Header -->
+  <header>
+    <h1>Toxic Sessions</h1>
+  </header>
+
+  <!-- News Ticker -->
   <div class="news-container">
-    <div class="title">
-      Hello there
-    </div>
+    <div class="title">News</div>
     <ul>
-      <li>welcome to xhclinton solutions!</li>
-      <li>Here you will get session ids for your whatsapp bots</li>
-      <li>Toxic Md and others</li>
+      <li>Welcome to xh_clinton's Toxic Sessions!</li>
+      <li>Get session IDs for your WhatsApp bots</li>
+      <li>Explore Toxic-MD and more</li>
     </ul>
   </div>
 
-  <center>  
-    <button onclick="window.open(`/qr`)" class="btn">qr code</button>
-    <button onclick="window.open(`/pair`)" class="btn">pair code</button>
-    <button onclick="window.open(`https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2Fxhclintohn%2FToxic-MD&team=juni3&template=https%3A%2F%2Fgithub.com%2Fxhclintohn%2FToxic-MD.git`)" class="btn">deploy Toxic-MD</button>
-    <button onclick="window.open(`https://github.com/xhclintohn/Toxic-MD/fork`)" class="btn">Fork Toxic-MD</button>
-    <button onclick="window.open(`https://github.com/xhclintohn/Toxic-MD`)" class="btn">Open Toxic-MD Repo</button>
-  </center>
-
-  <div class="copyright">
-    <center>
-      <p>&copy; 𝐓𝐨𝐱𝐢𝐜-𝐌𝐃 2025</p>
-      <p>𝐃𝐞𝐬𝐢𝐠𝐧𝐞𝐝 𝐁𝐲 <b>𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧</b> 𝐅𝐨𝐫  𝐘𝐨𝐮 👌</p>
-    </center>
+  <!-- Buttons -->
+  <div class="btn-container">
+    <button onclick="window.open('/qr', '_blank')" class="btn">QR Code</button>
+    <button onclick="window.open('/pair', '_blank')" class="btn">Pair Code</button>
+    <button onclick="window.open('https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2Fxhclintohn%2FToxic-MD&team=juni3&template=https%3A%2F%2Fgithub.com%2Fxhclintohn%2FToxic-MD.git', '_blank')" class="btn">Deploy Toxic-MD</button>
+    <button onclick="window.open('https://github.com/xhclintohn/Toxic-MD/fork', '_blank')" class="btn">Fork Toxic-MD</button>
+    <button onclick="window.open('https://github.com/xhclintohn/Toxic-MD', '_blank')" class="btn">Toxic-MD Repo</button>
   </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Toxic-MD. All rights reserved.</p>
+    <p>Designed and developed by <a href="https://github.com/xhclintohn" target="_blank">xh_clinton</a></p>
+  </footer>
 </body>
 </html>
