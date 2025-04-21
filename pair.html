@@ -3,216 +3,258 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pair Code</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <meta name="description" content="Generate a pairing code for Toxic-MD WhatsApp bots by xh_clinton.">
+  <meta name="author" content="xh_clinton">
+  <meta name="keywords" content="Toxic-MD, WhatsApp bots, pairing code, by xh_clinton">
+  <title>Toxic-MD Pairing Code</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: black;
-      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #121212, #1e1e1e);
+      font-family: 'Roboto', sans-serif;
+      color: #ffffff;
     }
 
     .container {
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 20px;
     }
 
     .box {
-      width: 300px;
-      height: 320px;
-      padding: 20px;
-      position: relative;
+      width: 100%;
+      max-width: 400px;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
       text-align: center;
-      background-color: rgb(0, 0, 0);
-      opacity:0.8;
-      border-radius: 10px;
-      transform: perspective(1000px) rotateY(0deg);
-      box-shadow: 0 0 20px rgba(250, 249, 249, 0.7);
-      position: relative;
+      transition: transform 0.3s ease;
     }
 
-    #text {
-      color: #f6f5f5;
+    .box:hover {
+      transform: translateY(-5px);
     }
 
-    .input-container input {
-      color: #f1eaea;
+    h3 {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+      color: #00FFFF;
     }
 
-    .centered-text {
-      color: #e9e4e4;
+    h6 {
+      font-size: 0.9em;
+      color: #cccccc;
+      margin-bottom: 15px;
     }
 
     .input-container {
       display: flex;
-      background: rgb(10, 10, 10);
-      border-radius: 1rem;
-      background: black;
-      box-shadow: black;
-      padding: 0.3rem;
-      gap: 0.3rem;
-      max-width: 300px;
-      width: 100%;
+      gap: 10px;
+      margin: 20px 0;
     }
 
     .input-container input {
-      border-radius: 0.8rem 0 0 0.8rem;
-      background: #e8e8e8;
-      box-shadow: inset 13px 13px 10px #dcdcdc, inset -13px -13px 10px #f4f4f4;
-      width: 100%;
-      flex-basis: 75%;
-      padding: 1rem;
+      flex: 1;
+      padding: 12px;
       border: none;
-      border-left: 2px solid #ecf2f8;
-      color: #000000;
-      transition: all 0.2s ease-in-out;
+      border-radius: 8px 0 0 8px;
+      background: #e8e8e8;
+      color: #121212;
+      font-size: 1em;
+      transition: all 0.2s ease;
     }
 
     .input-container input:focus {
-      border-left: 2px solid #ecf1f6;
       outline: none;
-      box-shadow: inset 13px 13px 10px #f0f2f3, inset -13px -13px 10px #f4f4f4;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
     }
 
     .input-container button {
-      flex-basis: 15%;
-      padding: 1rem;
-      background: #5935ac;
-      font-weight: 700;
-      letter-spacing: 0.3rem;
-      text-transform: uppercase;
+      padding: 12px 20px;
+      background: #1e88e5;
       color: white;
       border: none;
-      width: 90%;
-      border-radius: 0 1rem 1rem 0;
-      transition: all 0.2s ease-in-out;
+      border-radius: 0 8px 8px 0;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
 
     .input-container button:hover {
-      background: linear-gradient(135deg, #c01736 0%, #8b17b6 100%);
+      background: linear-gradient(135deg, #00FFFF, #1e88e5);
+    }
+
+    .input-container button:active {
+      transform: scale(0.95);
+    }
+
+    #waiting-message {
+      color: #00FFFF;
+      font-size: 1em;
+      margin-top: 10px;
+      display: none;
+    }
+
+    #pair {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+
+    #copy {
+      color: #ffffff;
+      background: #df2020;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #copy:hover {
+      background: #b71c1c;
+    }
+
+    #copy.copied {
+      background: #00cc00;
+      color: #ffffff;
+    }
+
+    .error {
+      color: #ff4444;
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #cccccc;
+      text-align: center;
+    }
+
+    footer a {
+      color: #00FFFF;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
 
     @media (max-width: 500px) {
+      .box {
+        padding: 20px;
+      }
+
       .input-container {
         flex-direction: column;
       }
 
       .input-container input {
-        border-radius: 0.8rem;
+        border-radius: 8px;
       }
 
       .input-container button {
-        padding: 0.4rem;
-        border-radius: 0.8rem;
-      }
-    }
-
-    .centered-text {
-      text-align: center;
-    }
-
-    @media (max-width: 500px) {
-      .box {
-        width: 90%; 
-      }
-    }
-
-    @media (max-width: 500px) {
-      .input-container input {
-        border-radius: 0.8rem;
-        width: 80%; 
+        border-radius: 8px;
       }
 
-      .input-container button {
-        padding: 1rem;
-        border-radius: 0.9rem;
-        width: 100%; 
+      h3 {
+        font-size: 1.5em;
+      }
+
+      h6 {
+        font-size: 0.8em;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="main">
-      <div class="box" id="box">
-        <div id="text">
-          <i class="fa fa-user"></i>
-          <p>
-            <h3 class="centered-text">Toxic MD PAIRING CODE</h3>
-            <br>
-            <h6>Toxic Tech</h6>
-            <h6>Enter Your Number with Country Code.</h6>
-            <div class="input-container">
-              <input placeholder="25473534xxx" type="number" id="number" placeholder="Enter your Phone Pumber with Country Code" name="">
-              <button id="submit">Submit</button>
-            </div>
-            
-            <a id="waiting-message" class="centered-text" style="display: none;">Please wait a while</a>
-            <br>
-            <br>
-            <main id="pair"></main>
-          </p>
+    <div class="box">
+      <div id="text">
+        <i class="fas fa-user fa-2x" style="color: #00FFFF;"></i>
+        <h3>Toxic-MD Pairing Code</h3>
+        <h6>Toxic Tech by xh_clinton</h6>
+        <h6>Enter your phone number with country code (e.g., +25473534xxxx)</h6>
+        <div class="input-container">
+          <input type="tel" id="number" placeholder="+25473534xxxx" aria-label="Phone number with country code">
+          <button id="submit">Submit</button>
         </div>
+        <div id="waiting-message">Please wait...</div>
+        <div id="pair"></div>
       </div>
     </div>
+    <footer>
+      <p>© 2025 Toxic-MD. All rights reserved.</p>
+      <p>Designed by <a href="https://github.com/xhclintohn" target="_blank">xh_clinton</a></p>
+    </footer>
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
-  <script>
-    let a = document.getElementById("pair");
-    let b = document.getElementById("submit");
-    let c = document.getElementById("number");
-    let box = document.getElementById("box");
 
-    async function Copy() {
-      let text = document.getElementById("copy").innerText;
-      let obj = document.getElementById("copy");
-      await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
-      obj.innerText = "COPIED";
-      obj.style = "color:blue;font-weight:bold";
-      obj.size = "5";
-      setTimeout(() => {
-        obj.innerText = text;
-        obj.style = "color:white;font-weight-bold";
-        obj.size = "5";
-      }, 500);
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js" integrity="sha512-xIPqqrfvUAc/Cspuj7Bq0UtHNo/5qkdyngx6Vwt+tmbvTLDszzXM0G6c91LXmGrRx8KEPulT+AfOOez+TeVylg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    const submitBtn = document.getElementById('submit');
+    const numberInput = document.getElementById('number');
+    const pairOutput = document.getElementById('pair');
+    const waitingMessage = document.getElementById('waiting-message');
+
+    async function copyCode(element) {
+      const code = element.innerText.replace('CODE: ', '');
+      try {
+        await navigator.clipboard.writeText(code);
+        element.classList.add('copied');
+        element.innerText = 'COPIED!';
+        setTimeout(() => {
+          element.classList.remove('copied');
+          element.innerText = `CODE: ${code}`;
+        }, 1000);
+      } catch (err) {
+        console.error('Copy failed:', err);
+      }
     }
 
-    b.addEventListener("click", async (e) => {
+    submitBtn.addEventListener('click', async (e) => {
       e.preventDefault();
-      if (!c.value) {
-        a.innerHTML = '<a style="color:white;font-weight:bold">Enter your WhatsApp number with Country Code</a><br><br>';
-      } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
-        a.innerHTML = '<a style="color:green;font-weight:bold">Invalid Number</a><br><br>';
-      } else {
-        const Mbuvi_Tech = c.value.replace(/[^0-9]/g, "");
-        let bb = "";
-        let bbc = "";
-        const cc = Mbuvi_Tech.split('');
-        cc.map(a => {
-          bbc += a;
-          if (bbc.length == 3) {
-            bb += " " + a;
-          } else if (bbc.length == 8) {
-            bb += " " + a;
-          } else {
-            bb += a;
-          }
-        });
-        c.type = "text";
-        c.value = "+" + bb;
-        c.style = "color:black;font-size:20px";
-        a.innerHTML = '<a style="color:white;font-weight:bold">Please Wait...</a><br><br>';
-        let { data } = await axios(`/code?number=${Mbuvi_Tech}`);
-        let code = data.code || "Service Unavailable";
-        a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">' + code + '</span></font><br><br><br>';
+      pairOutput.innerHTML = '';
+      waitingMessage.style.display = 'none';
+
+      const rawNumber = numberInput.value.replace(/[^0-9]/g, '');
+      if (!rawNumber) {
+        pairOutput.innerHTML = '<span class="error">Please enter a phone number</span>';
+        return;
+      }
+      if (rawNumber.length < 10) {
+        pairOutput.innerHTML = '<span class="error">Invalid phone number</span>';
+        return;
+      }
+
+      // Format number for display
+      const formattedNumber = '+' + rawNumber.replace(/(\d{3})(\d{3,4})(\d+)/, '$1 $2 $3');
+      numberInput.value = formattedNumber;
+
+      waitingMessage.style.display = 'block';
+      try {
+        const { data } = await axios.get(`/code?number=${rawNumber}`);
+        waitingMessage.style.display = 'none';
+        const code = data.code || 'Service Unavailable';
+        pairOutput.innerHTML = `<span id="copy" onclick="copyCode(this)">CODE: ${code}</span>`;
+      } catch (error) {
+        waitingMessage.style.display = 'none';
+        pairOutput.innerHTML = '<span class="error">Error fetching code. Please try again.</span>';
+        console.error('API error:', error);
       }
     });
   </script>
 </body>
-                              </html>
-  
+</html>
