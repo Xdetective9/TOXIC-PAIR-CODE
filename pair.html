@@ -5,9 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta property="og:title" content="PAIR CODE">
-  <meta property="og:description" content="Pair-code linker for WhatsApp bot.">
+  <meta property="og:description" content="Paircode for WhatsApp bot.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://github.com/darkdev-tech/DARK-V2">
+  <meta property="og:url" content="https://github.com/xhclintohn/Toxic-MD">
   <meta property="og:image" content="https://files.catbox.moe/qz77hs.m4a">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -32,7 +32,6 @@
       position: relative;
     }
 
-    /* Particle animation */
     .particle {
       position: absolute;
       background: rgba(139, 0, 0, 0.6);
@@ -40,7 +39,6 @@
       pointer-events: none;
     }
 
-    /* Floating elements animation */
     @keyframes float {
       0%, 100% {
         transform: translateY(0) rotate(0deg);
@@ -169,18 +167,27 @@
       z-index: 10;
     }
 
-    #music-player audio {
-      width: 80%;
-      max-width: 400px;
+    #music-player button {
+      background: #8b0000;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Graduate', sans-serif;
+      font-weight: bold;
+      transition: background 0.2s ease-in-out;
       filter: drop-shadow(0 0 10px rgba(139, 0, 0, 0.5));
     }
 
-    /* Glowing effect */
+    #music-player button:hover {
+      background: #ff0000;
+    }
+
     .glow {
       text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
     }
 
-    /* Smoke effect */
     .smoke {
       position: absolute;
       width: 100%;
@@ -223,7 +230,7 @@
 
   <div class="container">
     <h3 class="glow"> Toxic 𝐏𝐀𝐈𝐑𝐈𝐍𝐆 </h3>
-    
+
     <p>Enter Your WhatsApp Number with Country Code.</p>
     <br>
     <div class="input-container">
@@ -238,14 +245,15 @@
   </div>
 
   <footer>
-    Toxic &copy; <span id="currentYear"></span>
+    Toxic © <span id="currentYear"></span>
   </footer>
 
   <div id="music-player">
-      <audio controls autoplay loop>
-          <source src="https://files.catbox.moe/qz77hs.m4a" type="audio/mpeg">
-          Your browser does not support the audio element.
-      </audio>
+    <button id="music-toggle">Pause Music</button>
+    <audio id="background-music" autoplay loop>
+      <source src="https://files.catbox.moe/qz77hs.m4a" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
@@ -253,49 +261,59 @@
     let a = document.getElementById("pair");
     let b = document.getElementById("submit");
     let c = document.getElementById("number");
+    const audio = document.getElementById("background-music");
+    const musicToggle = document.getElementById("music-toggle");
 
-    // Create particles
+    musicToggle.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play();
+        musicToggle.textContent = "Pause Music";
+      } else {
+        audio.pause();
+        musicToggle.textContent = "Play Music";
+      }
+    });
+
     function createParticles() {
       const particleCount = 30;
       for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.classList.add('particle');
-        
+
         const size = Math.random() * 5 + 2;
         const posX = Math.random() * window.innerWidth;
         const posY = Math.random() * window.innerHeight;
         const duration = Math.random() * 20 + 10;
         const delay = Math.random() * 5;
-        
+
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
         particle.style.left = `${posX}px`;
         particle.style.top = `${posY}px`;
         particle.style.opacity = Math.random() * 0.5 + 0.1;
         particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
-        
+
         document.body.appendChild(particle);
       }
     }
 
-    // Create smoke effect
     function createSmoke() {
       const smoke = document.querySelector('.smoke');
       const smokeCount = 5;
-      
+
       for (let i = 0; i < smokeCount; i++) {
         const span = document.createElement('span');
         const size = Math.random() * 200 + 100;
         const posX = Math.random() * window.innerWidth;
         const duration = Math.random() * 10 + 15;
         const delay = Math.random() * 5;
-        
+
         span.style.width = `${size}px`;
         span.style.height = `${size}px`;
         span.style.left = `${posX}px`;
         span.style.animationDuration = `${duration}s`;
         span.style.animationDelay = `${delay}s`;
-        
+
         smoke.appendChild(span);
       }
     }
@@ -340,14 +358,24 @@
         c.style = "color:white;font-size:20px";
         document.getElementById("loading-spinner").style.display = "block";
         a.innerHTML = '';
-        let { data } = await axios(`/code?number=${bc}`);
-        let code = data.code || "❗ Service Unavailable";
-        a.innerHTML = '<font id="copy" onclick="Copy()" style="color:#ff0000;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">' + code + '</span></font><br><br><br>';
+        try {
+          let { data } = await axios(`/code?number=${bc}`);
+          let code = data.code || "❗ Unknown Error";
+          if (data.error) {
+            a.innerHTML = `<a style="color:#ff0000;font-weight:bold">❗ ${data.code}: ${data.error}</a><br><br>`;
+          } else {
+            a.innerHTML = `<font id="copy" onclick="Copy()" style="color:#ff0000;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">${code}</span></font><br><br><br>`;
+          }
+        } catch (error) {
+          a.innerHTML = '<a style="color:#ff0000;font-weight:bold">❗ Failed to connect to the server. Please try again later.</a><br><br>';
+        }
         document.getElementById("loading-spinner").style.display = "none";
       }
     });
 
     document.getElementById('currentYear').textContent = new Date().getFullYear();
+    createParticles();
+    createSmoke();
   </script>
 </body>
 </html>
