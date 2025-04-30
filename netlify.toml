@@ -1,3 +1,8 @@
 [build]
-  command = "npm install --legacy-peer-deps && npx expo export:web"
-  publish = "web-build"
+  command = "npm install"
+  publish = "."
+
+[[functions]]
+  function = "server"
+  handler = "mbuvi.handler"
+  external_node_modules = ["express", "@whiskeysockets/baileys", "maher-zubair-baileys", "qrcode", "awesome-phonenumber", "pino", "phone", "body-parser", "pastebin-js", "path"]
