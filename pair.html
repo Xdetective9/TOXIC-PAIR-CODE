@@ -5,9 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta property="og:title" content="PAIR CODE">
-  <meta property="og:description" content="Paircode for WhatsApp bot.">
+  <meta property="og:description" content="Pair-code linker for WhatsApp bot.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://github.com/xhclintohn/Toxic-MD">
+  <meta property="og:url" content="https://github.com/darkdev-tech/DARK-V2">
   <meta property="og:image" content="https://files.catbox.moe/qz77hs.m4a">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -223,18 +223,34 @@
         opacity: 0;
       }
     }
+
+    @media (max-width: 500px) {
+      .container {
+        width: 90%;
+      }
+      .input-container {
+        flex-direction: column;
+      }
+      .input-container input {
+        border-radius: 0.8rem;
+        width: 100%;
+      }
+      .input-container button {
+        border-radius: 0.8rem;
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="smoke"></div>
 
   <div class="container">
-    <h3 class="glow"> Toxic 𝐏𝐀𝐈𝐑𝐈𝐍𝐆 </h3>
-
+    <h3 class="glow">Toxic 𝐏𝐀𝐈𝐑𝐈𝐍𝐆</h3>
     <p>Enter Your WhatsApp Number with Country Code.</p>
     <br>
     <div class="input-container">
-      <input placeholder="254735xxxx" type="number" id="number" name="">
+      <input placeholder="254735xxxx" type="text" id="number" name="">
       <button id="submit">Code</button>
     </div>
     <div id="loading-spinner">
@@ -267,10 +283,10 @@
     musicToggle.addEventListener("click", () => {
       if (audio.paused) {
         audio.play();
-        musicToggle.textContent = "Pause Music";
+        musicToggle.textContent = "Play Music";
       } else {
         audio.pause();
-        musicToggle.textContent = "Play Music";
+        musicToggle.textContent = "Pause Music";
       }
     });
 
@@ -279,20 +295,17 @@
       for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.classList.add('particle');
-
         const size = Math.random() * 5 + 2;
         const posX = Math.random() * window.innerWidth;
         const posY = Math.random() * window.innerHeight;
         const duration = Math.random() * 20 + 10;
         const delay = Math.random() * 5;
-
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
         particle.style.left = `${posX}px`;
         particle.style.top = `${posY}px`;
         particle.style.opacity = Math.random() * 0.5 + 0.1;
         particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
-
         document.body.appendChild(particle);
       }
     }
@@ -300,20 +313,17 @@
     function createSmoke() {
       const smoke = document.querySelector('.smoke');
       const smokeCount = 5;
-
       for (let i = 0; i < smokeCount; i++) {
         const span = document.createElement('span');
         const size = Math.random() * 200 + 100;
         const posX = Math.random() * window.innerWidth;
         const duration = Math.random() * 10 + 15;
         const delay = Math.random() * 5;
-
         span.style.width = `${size}px`;
         span.style.height = `${size}px`;
         span.style.left = `${posX}px`;
         span.style.animationDuration = `${duration}s`;
         span.style.animationDelay = `${delay}s`;
-
         smoke.appendChild(span);
       }
     }
@@ -322,45 +332,48 @@
       let text = document.getElementById("copy").innerText;
       let obj = document.getElementById("copy");
       await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
-      obj.innerText = "✔️ COPIED";
+      obj.innerText = "COPIED";
       obj.style = "color:#ff0000;font-weight:bold";
       obj.size = "5";
       setTimeout(() => {
         obj.innerText = text;
-        obj.style = "color:white;font-weight-bold";
+        obj.style = "color:white;font-weight:bold";
         obj.size = "5";
       }, 500);
     }
+
+    c.addEventListener("paste", (e) => {
+      e.preventDefault();
+      const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+      c.value = pastedText.replace(/\s/g, ''); // Remove spaces for clean input
+    });
 
     b.addEventListener("click", async (e) => {
       e.preventDefault();
       if (!c.value) {
         a.innerHTML = '<a style="color:#ff0000;font-weight:bold">❗ Enter your WhatsApp number with country code.</a><br><br>';
       } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
-        a.innerHTML = '<a style="color:#ff0000;font-weight:bold">❗ Invalid number format. Please try again.</a><br><br>';
+        a.innerHTML = '<a style="color:#ff0000;font-weight:bold">❗ Invalid Number</a><br><br>';
       } else {
-        const bc = c.value.replace(/[^0-9]/g, "");
+        const num = c.value.replace(/[^0-9]/g, "");
         let bb = "";
         let bbc = "";
-        const cc = bc.split('');
-        cc.map(a => {
+        const cc = num.split('');
+        cc.forEach((a, i) => {
           bbc += a;
-          if (bbc.length == 3) {
-            bb += " " + a;
-          } else if (bbc.length == 8) {
+          if (bbc.length === 3 || bbc.length === 8) {
             bb += " " + a;
           } else {
             bb += a;
           }
         });
-        c.type = "text";
         c.value = "+" + bb;
         c.style = "color:white;font-size:20px";
+        a.innerHTML = '<a style="color:white;font-weight:bold">Please Wait...</a><br><br>';
         document.getElementById("loading-spinner").style.display = "block";
-        a.innerHTML = '';
         try {
-          let { data } = await axios(`/code?number=${bc}`);
-          let code = data.code || "❗ Unknown Error";
+          let { data } = await axios(`/code?number=${num}`);
+          let code = data.code || "❗ Service Unavailable";
           if (data.error) {
             a.innerHTML = `<a style="color:#ff0000;font-weight:bold">❗ ${data.code}: ${data.error}</a><br><br>`;
           } else {
