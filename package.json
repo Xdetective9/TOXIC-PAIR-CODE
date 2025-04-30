@@ -6,9 +6,10 @@
         "node": ">=20.0.0"
     },
     "scripts": {
-        "start": "node mbuvi.js"
+        "start": "node mbuvi.js",
+        "build:web": "expo export:web"
     },
-    "author": "Toxic Tech",
+    "author": "xhclinton",
     "license": "GPL-3.0 license",
     "dependencies": {
         "@whiskeysockets/baileys": "^6.5.0",
