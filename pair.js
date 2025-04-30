@@ -81,7 +81,7 @@ _https://chat.whatsapp.com/GoXKLVJgTAAC3556FXkfFI_
 Don't Forget To Give Star and fork My Repo :)`
 
  await Pair_Code_By_Mbuvi_Tech.sendMessage(Pair_Code_By_Mbuvi_Tech.user.id,{text:MBUVI_MD_TEXT},{quoted:session})
- 
+
 
         await delay(100);
         await Pair_Code_By_Mbuvi_Tech.ws.close();

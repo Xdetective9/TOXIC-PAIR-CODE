@@ -1,4 +1,4 @@
-function makeid(num = 4) {
+function makeid(num = 12) {
   let result = "";
   let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   var characters9 = characters.length;
