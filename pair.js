@@ -33,19 +33,31 @@ router.get('/code', async (req, res) => {
 
     if (!num) {
         logger.warn("No phone number provided");
-        return res.status(400).send({ code: "Phone number is required" });
+        return res.status(400).send({ code: "Phone number is required", error: "No number provided" });
     }
 
     num = num.replace(/[^0-9]/g, '');
     if (num.length < 10 || num.length > 15) {
         logger.warn(`Invalid phone number format: ${num}`);
-        return res.status(400).send({ code: "Invalid phone number format" });
+        return res.status(400).send({ code: "Invalid phone number format", error: "Number must be 10-15 digits" });
+    }
+
+    // Ensure temp directory exists
+    const tempDir = path.join(__dirname, 'temp');
+    try {
+        if (!fs.existsSync(tempDir)) {
+            fs.mkdirSync(tempDir, { recursive: true });
+            logger.info(`Created temp directory: ${tempDir}`);
+        }
+    } catch (err) {
+        logger.error(`Failed to create temp directory: ${err.message}`);
+        return res.status(500).send({ code: "Server Error", error: "Failed to initialize temp directory" });
     }
 
     async function XHCLINTON_MD_PAIR_CODE() {
         try {
+            logger.info(`Initializing auth state for ID: ${id}`);
             const { state, saveCreds } = await useMultiFileAuthState(path.join(__dirname, 'temp', id));
-            logger.info(`Auth state initialized for ID: ${id}`);
 
             let Pair_Code_By_Xhclinton_Tech = Xhclinton_Tech({
                 auth: {
@@ -115,7 +127,13 @@ Don't Forget To Give Star and fork My Repo :)`
             logger.error(`Error in XHCLINTON_MD_PAIR_CODE: ${err.message}`);
             await removeFile(path.join(__dirname, 'temp', id));
             if (!res.headersSent) {
-                await res.status(500).send({ code: "Service Currently Unavailable", error: err.message });
+                let errorMessage = "Service Currently Unavailable";
+                if (err.message.includes("network")) {
+                    errorMessage = "Network error connecting to WhatsApp servers";
+                } else if (err.message.includes("invalid")) {
+                    errorMessage = "Invalid phone number or request format";
+                }
+                await res.status(500).send({ code: "Service Unavailable", error: errorMessage });
             }
         }
     }
