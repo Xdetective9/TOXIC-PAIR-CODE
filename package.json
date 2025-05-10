@@ -11,10 +11,10 @@
   "author": "Toxic Tech",
   "license": "GPL-3.0",
   "dependencies": {
-    "baileys-elite": "latest",
+    "@whiskeysockets/baileys": "latest",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@distube/ytdl-core": "^4.15.1",
-    "jimp": "latest",
+    "jimp": "^1.7.0",
     "qrcode": "^1.5.4",
     "awesome-phonenumber": "^6.2.0",
     "pino": "^9.4.0",
