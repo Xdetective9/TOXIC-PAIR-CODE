@@ -12,7 +12,7 @@ const {
   delay,
   makeCacheableSignalKeyStore,
   Browsers
-} = require("baileys-elite");
+} = require("@whiskeysockets/baileys");
 
 function removeFile(FilePath) {
   if (!fs.existsSync(FilePath)) return false;
@@ -27,9 +27,10 @@ router.get('/', async (req, res) => {
   }
   num = num.replace(/[^0-9]/g, '');
   const pn = new PhoneNumber('+' + num);
-  if (!pn.isValid()) {
-    return res.status(400).json({ error: "Invalid phone number" });
+  if (!pn.isValid() || !pn.isMobile()) {
+    return res.status(400).json({ error: "Invalid or non-mobile phone number" });
   }
+  const formattedNumber = pn.getNumber('international'); // e.g., +254 735 342 808
 
   async function Toxic_MD_PAIR_CODE() {
     const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
@@ -50,7 +51,9 @@ router.get('/', async (req, res) => {
 
       if (!Pair_Code_By_Toxic_Tech.authState.creds.registered) {
         await delay(1500);
+        console.log(`Requesting pairing code for ${formattedNumber}`);
         const code = await Pair_Code_By_Toxic_Tech.requestPairingCode(num);
+        console.log(`Generated pairing code: ${code}`);
         if (!res.headersSent) {
           await res.send({ code });
         }
@@ -78,7 +81,7 @@ router.get('/', async (req, res) => {
           let Toxic_MD_TEXT = `
 𝙎𝙀𝙎𝙎𝙄𝙊𝙉 𝘾𝙊𝙉𝙉𝙀𝘾𝙏𝙀𝘿
 𝙏𝙤𝙭𝙞𝙘-𝙈𝘿 𝙇𝙤𝙜𝙴𝙙
-『••• �_V𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』
+『••• 𝗩𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』
 > 𝐎𝐰𝐧𝐞𝐫: _https://wa.me/254735342808_
 > 𝐑𝐞𝐩𝐨: _https://github.com/xhclintohn/Toxic-MD_
 > 𝐖𝐚𝐆𝐫𝐨𝐮𝐩: _https://chat.whatsapp.com/GoXKLVJgTAAC3556FXkfFI_
@@ -91,6 +94,7 @@ Don't Forget To Give Star⭐ To My Repo :)`;
           await Pair_Code_By_Toxic_Tech.ws.close();
           await removeFile('./temp/' + id);
         } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
+          console.error("Connection closed with error:", lastDisconnect.error);
           await delay(10000);
           Toxic_MD_PAIR_CODE();
         }
