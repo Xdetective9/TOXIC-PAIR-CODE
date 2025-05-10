@@ -10,7 +10,7 @@ const {
   fetchLatestBaileysVersion,
   Browsers,
   delay
-} = require("baileys-elite");
+} = require("@whiskeysockets/baileys");
 
 let router = express.Router();
 
