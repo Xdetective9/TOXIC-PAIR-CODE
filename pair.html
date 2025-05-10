@@ -6,213 +6,235 @@
   <title>Pair Code</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: black;
-      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e2a44, #0f172a);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #e2e8f0;
     }
 
     .container {
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 1rem;
     }
 
     .box {
-      width: 300px;
-      height: 320px;
-      padding: 20px;
-      position: relative;
+      width: 100%;
+      max-width: 400px;
+      padding: 2rem;
+      background: #1e293b;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       text-align: center;
-      background-color: rgb(0, 0, 0);
-      opacity:0.8;
-      border-radius: 10px;
-      transform: perspective(1000px) rotateY(0deg);
-      box-shadow: 0 0 20px rgba(250, 249, 249, 0.7);
-      position: relative;
+      transition: transform 0.3s ease;
     }
 
-    #text {
-      color: #f6f5f5;
+    .box:hover {
+      transform: translateY(-4px);
     }
 
-    .input-container input {
-      color: #f1eaea;
+    .title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #60a5fa;
+      margin-bottom: 0.5rem;
     }
 
-    .centered-text {
-      color: #e9e4e4;
+    .subtitle {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-bottom: 1.5rem;
     }
 
     .input-container {
       display: flex;
-      background: rgb(10, 10, 10);
-      border-radius: 1rem;
-      background: black;
-      box-shadow: black;
-      padding: 0.3rem;
-      gap: 0.3rem;
-      max-width: 300px;
-      width: 100%;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      background: #0f172a;
+      padding: 0.5rem;
+      border-radius: 12px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
     .input-container input {
-      border-radius: 0.8rem 0 0 0.8rem;
-      background: #e8e8e8;
-      box-shadow: inset 13px 13px 10px #dcdcdc, inset -13px -13px 10px #f4f4f4;
-      width: 100%;
-      flex-basis: 75%;
+      flex: 1;
       padding: 1rem;
-      border: none;
-      border-left: 2px solid #ecf2f8;
-      color: #000000;
-      transition: all 0.2s ease-in-out;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #e2e8f0;
+      font-size: 1rem;
+      transition: border-color 0.2s ease;
     }
 
     .input-container input:focus {
-      border-left: 2px solid #ecf1f6;
       outline: none;
-      box-shadow: inset 13px 13px 10px #f0f2f3, inset -13px -13px 10px #f4f4f4;
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+    }
+
+    .input-container input::placeholder {
+      color: #64748b;
     }
 
     .input-container button {
-      flex-basis: 15%;
-      padding: 1rem;
-      background: #5935ac;
-      font-weight: 700;
-      letter-spacing: 0.3rem;
-      text-transform: uppercase;
-      color: white;
+      padding: 1rem 1.5rem;
+      background: #3b82f6;
       border: none;
-      width: 90%;
-      border-radius: 0 1rem 1rem 0;
-      transition: all 0.2s ease-in-out;
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
     }
 
     .input-container button:hover {
-      background: linear-gradient(135deg, #c01736 0%, #8b17b6 100%);
+      background: #2563eb;
+      transform: translateY(-2px);
     }
 
-    @media (max-width: 500px) {
-      .input-container {
-        flex-direction: column;
-      }
-
-      .input-container input {
-        border-radius: 0.8rem;
-      }
-
-      .input-container button {
-        padding: 0.4rem;
-        border-radius: 0.8rem;
-      }
+    .input-container button:active {
+      transform: translateY(0);
     }
 
-    .centered-text {
-      text-align: center;
+    #waiting-message {
+      color: #60a5fa;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    #pair {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    #pair a, #pair font {
+      color: #f87171;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    #pair a:hover, #pair font:hover {
+      color: #ef4444;
+    }
+
+    #copy.copied {
+      color: #34d399 !important;
+      font-weight: 600;
     }
 
     @media (max-width: 500px) {
       .box {
-        width: 90%; 
+        padding: 1.5rem;
       }
-    }
 
-    @media (max-width: 500px) {
-      .input-container input {
-        border-radius: 0.8rem;
-        width: 80%; 
+      .input-container {
+        flex-direction: column;
+      }
+
+      .input-container input,
+      .input-container button {
+        width: 100%;
+        border-radius: 8px;
       }
 
       .input-container button {
         padding: 1rem;
-        border-radius: 0.9rem;
-        width: 100%; 
+      }
+
+      .title {
+        font-size: 1.3rem;
+      }
+
+      .subtitle {
+        font-size: 0.85rem;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="main">
-      <div class="box" id="box">
-        <div id="text">
-          <i class="fa fa-user"></i>
-          <p>
-            <h3 class="centered-text">Toxic MD PAIRING CODE</h3>
-            <br>
-            <h6>Toxic Tech</h6>
-            <h6>Enter Your Number with Country Code.</h6>
-            <div class="input-container">
-              <input placeholder="25473534xxx" type="number" id="number" placeholder="Enter your Phone Pumber with Country Code" name="">
-              <button id="submit">Submit</button>
-            </div>
-            
-            <a id="waiting-message" class="centered-text" style="display: none;">Please wait a while</a>
-            <br>
-            <br>
-            <main id="pair"></main>
-          </p>
-        </div>
+    <div class="box">
+      <h3 class="title"><i class="fa fa-user" style="margin-right: 0.5rem;"></i> Toxic MD Pairing Code</h3>
+      <p class="subtitle">Enter your phone number with country code</p>
+      <div class="input-container">
+        <input placeholder="25473534xxxx" type="text" id="number" name="number" autocomplete="tel">
+        <button id="submit">Submit</button>
       </div>
+      <a id="waiting-message">Please wait a while</a>
+      <main id="pair"></main>
     </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
   <script>
-    let a = document.getElementById("pair");
-    let b = document.getElementById("submit");
-    let c = document.getElementById("number");
-    let box = document.getElementById("box");
+    const pair = document.getElementById("pair");
+    const submitBtn = document.getElementById("submit");
+    const numberInput = document.getElementById("number");
+    const waitingMessage = document.getElementById("waiting-message");
 
-    async function Copy() {
-      let text = document.getElementById("copy").innerText;
-      let obj = document.getElementById("copy");
-      await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
-      obj.innerText = "COPIED";
-      obj.style = "color:blue;font-weight:bold";
-      obj.size = "5";
+    async function copyCode() {
+      const codeElement = document.getElementById("copy");
+      const codeText = codeElement.innerText.replace("CODE: ", "");
+      await navigator.clipboard.writeText(codeText);
+      codeElement.classList.add("copied");
+      codeElement.innerText = "COPIED";
       setTimeout(() => {
-        obj.innerText = text;
-        obj.style = "color:white;font-weight-bold";
-        obj.size = "5";
-      }, 500);
+        codeElement.classList.remove("copied");
+        codeElement.innerText = `CODE: ${codeText}`;
+      }, 1000);
     }
 
-    b.addEventListener("click", async (e) => {
+    submitBtn.addEventListener("click", async (e) => {
       e.preventDefault();
-      if (!c.value) {
-        a.innerHTML = '<a style="color:white;font-weight:bold">Enter your WhatsApp number with Country Code</a><br><br>';
-      } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
-        a.innerHTML = '<a style="color:green;font-weight:bold">Invalid Number</a><br><br>';
-      } else {
-        const Toxic_Tech = c.value.replace(/[^0-9]/g, "");
-        let bb = "";
-        let bbc = "";
-        const cc = Toxic_Tech.split('');
-        cc.map(a => {
-          bbc += a;
-          if (bbc.length == 3) {
-            bb += " " + a;
-          } else if (bbc.length == 8) {
-            bb += " " + a;
-          } else {
-            bb += a;
-          }
-        });
-        c.type = "text";
-        c.value = "+" + bb;
-        c.style = "color:black;font-size:20px";
-        a.innerHTML = '<a style="color:white;font-weight:bold">Please Wait...</a><br><br>';
-        let { data } = await axios(`/code?number=${Toxic_Tech}`);
-        let code = data.code || "Service Unavailable";
-        a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">' + code + '</span></font><br><br><br>';
+      const number = numberInput.value.trim();
+
+      if (!number) {
+        pair.innerHTML = '<a style="color: #f87171; font-weight: 500;">Enter your WhatsApp number with country code</a>';
+        return;
+      }
+
+      const cleanNumber = number.replace(/[^0-9]/g, "");
+      if (cleanNumber.length < 11) {
+        pair.innerHTML = '<a style="color: #34d399; font-weight: 500;">Invalid Number</a>';
+        return;
+      }
+
+      // Format number with spaces
+      let formattedNumber = "";
+      const chars = cleanNumber.split("");
+      chars.forEach((char, index) => {
+        formattedNumber += char;
+        if (index === 2 || index === 7) formattedNumber += " ";
+      });
+      numberInput.value = `+${formattedNumber}`;
+
+      pair.innerHTML = '<a style="color: #e2e8f0; font-weight: 500;">Please Wait...</a>';
+      waitingMessage.style.display = "block";
+
+      try {
+        const { data } = await axios(`/code?number=${cleanNumber}`);
+        const code = data.code || "Service Unavailable";
+        pair.innerHTML = `<font id="copy" onclick="copyCode()" style="font-weight: 500;">CODE: <span style="color: #e2e8f0;">${code}</span></font>`;
+      } catch (error) {
+        pair.innerHTML = '<a style="color: #f87171; font-weight: 500;">Error fetching code</a>';
+      } finally {
+        waitingMessage.style.display = "none";
       }
     });
   </script>
 </body>
-                              </html>
-  
+</html>
