@@ -2,54 +2,38 @@ const PastebinAPI = require('pastebin-js'),
 pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL');
 const { makeid } = require('./id');
 const express = require('express');
-const KeyedDB = require('@adiwajshing/keyed-db').default;
+const fs = require('fs');
+const PhoneNumber = require('awesome-phonenumber');
+let router = express.Router();
 const pino = require("pino");
 const {
   default: makeWASocket,
-  fetchLatestBaileysVersion,
+  useMultiFileAuthState,
   delay,
   makeCacheableSignalKeyStore,
   Browsers
 } = require("baileys-elite");
 
-let router = express.Router();
-
-// Initialize KeyedDB for session storage
-const sessionDB = new KeyedDB(
-  {
-    id: (item) => item.sessionId,
-    compare: (a, b) => a.sessionId.localeCompare(b.sessionId)
-  },
-  () => ({ sessionId: '', creds: {}, keys: {} })
-);
-
-// Custom auth state with KeyedDB
-async function useKeyedAuthState(sessionId) {
-  let session = sessionDB.get({ sessionId });
-  if (!session) {
-    session = sessionDB.insert({ sessionId, creds: {}, keys: {} });
-  }
-  return {
-    state: {
-      creds: session.creds,
-      keys: session.keys
-    },
-    saveCreds: async () => {
-      sessionDB.update({ sessionId }, (item) => {
-        item.creds = session.creds;
-        item.keys = session.keys;
-      });
-    }
-  };
+function removeFile(FilePath) {
+  if (!fs.existsSync(FilePath)) return false;
+  fs.rmSync(FilePath, { recursive: true, force: true });
 }
 
 router.get('/', async (req, res) => {
   const id = makeid();
   let num = req.query.number;
+  if (!num) {
+    return res.status(400).json({ error: "Phone number is required" });
+  }
+  num = num.replace(/[^0-9]/g, '');
+  const pn = new PhoneNumber('+' + num);
+  if (!pn.isValid()) {
+    return res.status(400).json({ error: "Invalid phone number" });
+  }
+
   async function Toxic_MD_PAIR_CODE() {
-    const { state, saveCreds } = await useKeyedAuthState(id);
+    const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
     try {
-      const { version } = await fetchLatestBaileysVersion();
       let Pair_Code_By_Toxic_Tech = makeWASocket({
         auth: {
           creds: state.creds,
@@ -66,7 +50,6 @@ router.get('/', async (req, res) => {
 
       if (!Pair_Code_By_Toxic_Tech.authState.creds.registered) {
         await delay(1500);
-        num = num.replace(/[^0-9]/g, '');
         const code = await Pair_Code_By_Toxic_Tech.requestPairingCode(num);
         if (!res.headersSent) {
           await res.send({ code });
@@ -78,17 +61,24 @@ router.get('/', async (req, res) => {
         const { connection, lastDisconnect } = s;
         if (connection == "open") {
           await delay(5000);
-          let sessionData = JSON.stringify(state);
-          let paste = await pastebin.createPaste({
-            text: sessionData,
-            title: `Session_${id}`,
-            format: 'json',
-            privacy: 1
-          });
+          let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
+          let b64data = Buffer.from(data).toString('base64');
+          let paste;
+          try {
+            paste = await pastebin.createPaste({
+              text: b64data,
+              title: `Session_${id}`,
+              format: 'json',
+              privacy: 1
+            });
+          } catch (pasteErr) {
+            console.error("Pastebin error:", pasteErr);
+            paste = "Failed to upload to Pastebin";
+          }
           let Toxic_MD_TEXT = `
 𝙎𝙀𝙎𝙎𝙄𝙊𝙉 𝘾𝙊𝙉𝙉𝙀𝘾𝙏𝙀𝘿
-𝙏𝙤𝙭𝙞𝙘-𝙈𝘿 𝙇𝙤𝙜𝙜𝙚𝙙
-『••• 𝗩𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』
+𝙏𝙤𝙭𝙞𝙘-𝙈𝘿 𝙇𝙤𝙜𝙴𝙙
+『••• �_V𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』
 > 𝐎𝐰𝐧𝐞𝐫: _https://wa.me/254735342808_
 > 𝐑𝐞𝐩𝐨: _https://github.com/xhclintohn/Toxic-MD_
 > 𝐖𝐚𝐆𝐫𝐨𝐮𝐩: _https://chat.whatsapp.com/GoXKLVJgTAAC3556FXkfFI_
@@ -99,17 +89,17 @@ Don't Forget To Give Star⭐ To My Repo :)`;
           await Pair_Code_By_Toxic_Tech.sendMessage(Pair_Code_By_Toxic_Tech.user.id, { text: Toxic_MD_TEXT });
           await delay(100);
           await Pair_Code_By_Toxic_Tech.ws.close();
-          sessionDB.delete({ sessionId: id });
+          await removeFile('./temp/' + id);
         } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
           await delay(10000);
           Toxic_MD_PAIR_CODE();
         }
       });
     } catch (err) {
-      console.log("service restarted");
-      sessionDB.delete({ sessionId: id });
+      console.error("Error in pair.js:", err);
+      await removeFile('./temp/' + id);
       if (!res.headersSent) {
-        await res.send({ code: "Service Currently Unavailable" });
+        await res.status(503).json({ error: "Service Currently Unavailable" });
       }
     }
   }
