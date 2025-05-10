@@ -2,393 +2,215 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content="PAIR CODE">
-  <meta property="og:description" content="Pair-code linker for WhatsApp bot.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://github.com/darkdev-tech/DARK-V2">
-  <meta property="og:image" content="https://files.catbox.moe/qz77hs.m4a">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="PAIR CODE">
-  <meta name="twitter:description" content="Pair-code linker for WhatsApp bot.">
-  <meta name="twitter:image" content="https://files.catbox.moe/qz77hs.m4a">
-  <link rel="shortcut icon" href="" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Graduate&display=swap" rel="stylesheet">
+  <title>Pair Code</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
     body {
-      background-color: #0a0a0a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 100vh;
       margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      color: white;
-      font-family: 'Graduate', sans-serif;
-      position: relative;
-    }
-
-    .particle {
-      position: absolute;
-      background: rgba(139, 0, 0, 0.6);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0) rotate(0deg);
-      }
-      50% {
-        transform: translateY(-20px) rotate(5deg);
-      }
+      background-color: black;
+      font-family: Arial, sans-serif;
     }
 
     .container {
-      text-align: center;
-      background: rgba(10, 0, 0, 0.8);
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 0 30px rgba(139, 0, 0, 0.5);
-      max-width: 400px;
-      width: 100%;
-      border: 1px solid rgba(139, 0, 0, 0.3);
-      animation: float 6s ease-in-out infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .box {
+      width: 300px;
+      height: 320px;
+      padding: 20px;
       position: relative;
-      z-index: 10;
+      text-align: center;
+      background-color: rgb(0, 0, 0);
+      opacity: 0.8;
+      border-radius: 10px;
+      transform: perspective(1000px) rotateY(0deg);
+      box-shadow: 0 0 20px rgba(250, 249, 249, 0.7);
+      position: relative;
     }
 
-    h3 {
-      margin-top: 0;
-      opacity: 0;
-      transform: translateY(-100px);
-      animation: slideIn 2s ease-out forwards, fadeIn 2s ease-out forwards;
-      color: #8b0000;
-      text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    #text {
+      color: #f6f5f5;
     }
 
-    @keyframes slideIn {
-      to {
-        transform: translateY(0);
-      }
+    .input-container input {
+      color: #f1eaea;
     }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+    .centered-text {
+      color: #e9e4e4;
     }
 
     .input-container {
       display: flex;
-      background: linear-gradient(90deg, #450000, #8b0000);
+      background: rgb(10, 10, 10);
       border-radius: 1rem;
+      background: black;
+      box-shadow: black;
       padding: 0.3rem;
       gap: 0.3rem;
       max-width: 300px;
       width: 100%;
-      margin: 0 auto;
-      box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
     }
 
     .input-container input {
       border-radius: 0.8rem 0 0 0.8rem;
-      background: #000000;
-      width: 89%;
+      background: #e8e8e8;
+      box-shadow: inset 13px 13px 10px #dcdcdc, inset -13px -13px 10px #f4f4f4;
+      width: 100%;
       flex-basis: 75%;
       padding: 1rem;
       border: none;
-      border-left: 2px solid #8b0000;
-      color: #ecf0f1;
+      border-left: 2px solid #ecf2f8;
+      color: #000000;
       transition: all 0.2s ease-in-out;
     }
 
     .input-container input:focus {
-      border-left: 2px solid #ff0000;
+      border-left: 2px solid #ecf1f6;
       outline: none;
-      box-shadow: inset 13px 13px 10px #450000, inset -13px -13px 10px #1a0000;
+      box-shadow: inset 13px 13px 10px #f0f2f3, inset -13px -13px 10px #f4f4f4;
     }
 
     .input-container button {
-      flex-basis: 25%;
+      flex-basis: 15%;
       padding: 1rem;
-      background: #8b0000;
-      font-weight: 900;
+      background: #5935ac;
+      font-weight: 700;
       letter-spacing: 0.3rem;
       text-transform: uppercase;
       color: white;
       border: none;
-      width: 100%;
+      width: 90%;
       border-radius: 0 1rem 1rem 0;
       transition: all 0.2s ease-in-out;
-      cursor: pointer;
     }
 
     .input-container button:hover {
-      background: #ff0000;
+      background: linear-gradient(135deg, #c01736 0%, #8b17b6 100%);
     }
 
-    #loading-spinner {
-      display: none;
-      color: #8b0000;
-      margin-top: 10px;
+    @media (max-width: 500px) {
+      .input-container {
+        flex-direction: column;
+      }
+
+      .input-container input {
+        border-radius: 0.8rem;
+      }
+
+      .input-container button {
+        padding: 0.4rem;
+        border-radius: 0.8rem;
+      }
     }
 
-    .fa-spinner {
-      animation: spin 2s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: rgba(10, 0, 0, 0.8);
-      color: #8b0000;
-      padding: 10px 0;
+    .centered-text {
       text-align: center;
-      font-size: 14px;
-      z-index: 10;
     }
 
-    #music-player {
-      position: fixed;
-      bottom: 50px;
-      width: 100%;
-      text-align: center;
-      z-index: 10;
-    }
-
-    #music-player button {
-      background: #8b0000;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-family: 'Graduate', sans-serif;
-      font-weight: bold;
-      transition: background 0.2s ease-in-out;
-      filter: drop-shadow(0 0 10px rgba(139, 0, 0, 0.5));
-    }
-
-    #music-player button:hover {
-      background: #ff0000;
-    }
-
-    .glow {
-      text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
-    }
-
-    .smoke {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .smoke span {
-      position: absolute;
-      bottom: -50px;
-      background: rgba(139, 0, 0, 0.2);
-      border-radius: 50%;
-      filter: blur(20px);
-      animation: smoke 15s linear infinite;
-    }
-
-    @keyframes smoke {
-      0% {
-        transform: translateY(0) rotate(0deg) scale(0.5);
-        opacity: 0;
-      }
-      20% {
-        opacity: 0.3;
-      }
-      50% {
-        opacity: 0.5;
-      }
-      100% {
-        transform: translateY(-100vh) rotate(360deg) scale(2);
-        opacity: 0;
+    @media (max-width: 500px) {
+      .box {
+        width: 90%;
       }
     }
 
     @media (max-width: 500px) {
-      .container {
-        width: 90%;
-      }
-      .input-container {
-        flex-direction: column;
-      }
       .input-container input {
         border-radius: 0.8rem;
-        width: 100%;
+        width: 80%;
       }
+
       .input-container button {
-        border-radius: 0.8rem;
+        padding: 1rem;
+        border-radius: 0.9rem;
         width: 100%;
       }
     }
   </style>
 </head>
 <body>
-  <div class="smoke"></div>
-
   <div class="container">
-    <h3 class="glow">Toxic 𝐏𝐀𝐈𝐑𝐈𝐍𝐆</h3>
-    <p>Enter Your WhatsApp Number with Country Code.</p>
-    <br>
-    <div class="input-container">
-      <input placeholder="254735xxxx" type="text" id="number" name="">
-      <button id="submit">Code</button>
+    <div class="main">
+      <div class="box" id="box">
+        <div id="text">
+          <i class="fa fa-user"></i>
+          <p>
+            <h3 class="centered-text">Toxic MD PAIRING CODE</h3>
+            <br>
+            <h6>Toxic Tech</h6>
+            <h6>Enter Your Number with Country Code.</h6>
+            <div class="input-container">
+              <input placeholder="25473534xxx" type="number" id="number" name="">
+              <button id="submit">Submit</button>
+            </div>
+            <a id="waiting-message" class="centered-text" style="display: none;">Please wait a while</a>
+            <br>
+            <br>
+            <main id="pair"></main>
+          </p>
+        </div>
+      </div>
     </div>
-    <div id="loading-spinner">
-      <i class="fas fa-spinner fa-spin"></i>
-    </div>
-    <br>
-    <main id="pair"></main>
   </div>
-
-  <footer>
-    Toxic © <span id="currentYear"></span>
-  </footer>
-
-  <div id="music-player">
-    <button id="music-toggle">Pause Music</button>
-    <audio id="background-music" autoplay loop>
-      <source src="https://files.catbox.moe/qz77hs.m4a" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-  </div>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
   <script>
     let a = document.getElementById("pair");
     let b = document.getElementById("submit");
     let c = document.getElementById("number");
-    const audio = document.getElementById("background-music");
-    const musicToggle = document.getElementById("music-toggle");
-
-    musicToggle.addEventListener("click", () => {
-      if (audio.paused) {
-        audio.play();
-        musicToggle.textContent = "Play Music";
-      } else {
-        audio.pause();
-        musicToggle.textContent = "Pause Music";
-      }
-    });
-
-    function createParticles() {
-      const particleCount = 30;
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        const size = Math.random() * 5 + 2;
-        const posX = Math.random() * window.innerWidth;
-        const posY = Math.random() * window.innerHeight;
-        const duration = Math.random() * 20 + 10;
-        const delay = Math.random() * 5;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${posX}px`;
-        particle.style.top = `${posY}px`;
-        particle.style.opacity = Math.random() * 0.5 + 0.1;
-        particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
-        document.body.appendChild(particle);
-      }
-    }
-
-    function createSmoke() {
-      const smoke = document.querySelector('.smoke');
-      const smokeCount = 5;
-      for (let i = 0; i < smokeCount; i++) {
-        const span = document.createElement('span');
-        const size = Math.random() * 200 + 100;
-        const posX = Math.random() * window.innerWidth;
-        const duration = Math.random() * 10 + 15;
-        const delay = Math.random() * 5;
-        span.style.width = `${size}px`;
-        span.style.height = `${size}px`;
-        span.style.left = `${posX}px`;
-        span.style.animationDuration = `${duration}s`;
-        span.style.animationDelay = `${delay}s`;
-        smoke.appendChild(span);
-      }
-    }
+    let box = document.getElementById("box");
 
     async function Copy() {
       let text = document.getElementById("copy").innerText;
       let obj = document.getElementById("copy");
       await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
       obj.innerText = "COPIED";
-      obj.style = "color:#ff0000;font-weight:bold";
+      obj.style = "color:blue;font-weight:bold";
       obj.size = "5";
       setTimeout(() => {
         obj.innerText = text;
-        obj.style = "color:white;font-weight:bold";
+        obj.style = "color:white;font-weight-bold";
         obj.size = "5";
       }, 500);
     }
 
-    c.addEventListener("paste", (e) => {
-      e.preventDefault();
-      const pastedText = (e.clipboardData || window.clipboardData).getData('text');
-      c.value = pastedText.replace(/\s/g, ''); // Remove spaces for clean input
-    });
-
     b.addEventListener("click", async (e) => {
       e.preventDefault();
       if (!c.value) {
-        a.innerHTML = '<a style="color:#ff0000;font-weight:bold">❗ Enter your WhatsApp number with country code.</a><br><br>';
+        a.innerHTML = '<a style="color:white;font-weight:bold">Enter your WhatsApp number with Country Code</a><br><br>';
       } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
-        a.innerHTML = '<a style="color:#ff0000;font-weight:bold">❗ Invalid Number</a><br><br>';
+        a.innerHTML = '<a style="color:green;font-weight:bold">Invalid Number</a><br><br>';
       } else {
-        const num = c.value.replace(/[^0-9]/g, "");
+        const Toxic_Tech = c.value.replace(/[^0-9]/g, "");
         let bb = "";
         let bbc = "";
-        const cc = num.split('');
-        cc.forEach((a, i) => {
+        const cc = Toxic_Tech.split('');
+        cc.map(a => {
           bbc += a;
-          if (bbc.length === 3 || bbc.length === 8) {
+          if (bbc.length == 3) {
+            bb += " " + a;
+          } else if (bbc.length == 8) {
             bb += " " + a;
           } else {
             bb += a;
           }
         });
+        c.type = "text";
         c.value = "+" + bb;
-        c.style = "color:white;font-size:20px";
+        c.style = "color:black;font-size:20px";
         a.innerHTML = '<a style="color:white;font-weight:bold">Please Wait...</a><br><br>';
-        document.getElementById("loading-spinner").style.display = "block";
-        try {
-          let { data } = await axios(`/code?number=${num}`);
-          let code = data.code || "❗ Service Unavailable";
-          if (data.error) {
-            a.innerHTML = `<a style="color:#ff0000;font-weight:bold">❗ ${data.code}: ${data.error}</a><br><br>`;
-          } else {
-            a.innerHTML = `<font id="copy" onclick="Copy()" style="color:#ff0000;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">${code}</span></font><br><br><br>`;
-          }
-        } catch (error) {
-          a.innerHTML = '<a style="color:#ff0000;font-weight:bold">❗ Failed to connect to the server. Please try again later.</a><br><br>';
-        }
-        document.getElementById("loading-spinner").style.display = "none";
+        let { data } = await axios(`/code?number=${Toxic_Tech}`);
+        let code = data.code || "Service Unavailable";
+        a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">' + code + '</span></font><br><br><br>';
       }
     });
-
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-    createParticles();
-    createSmoke();
   </script>
 </body>
 </html>

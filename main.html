@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Toxic sessions</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>xh_clinton Sessions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     body {
@@ -14,175 +17,116 @@
       justify-content: center;
       height: 100vh;
       margin: 0;
-      background: linear-gradient(135deg, #1C0000, #3C0F0F);
+      background-color: black;
       overflow: hidden;
       position: relative;
-      font-family: 'Roboto', 'Segoe UI', sans-serif;
-      color: #FFDAD4;
     }
 
-    /* Cosmic Background Animation */
-    .cosmic-background {
+    /* Atomic Animation */
+    .atomic-animation {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      height: 200px;
       z-index: -1;
-      overflow: hidden;
-      background: radial-gradient(circle at center, rgba(139, 0, 0, 0.3), transparent);
     }
 
-    .star {
+    .nucleus {
+      width: 20px;
+      height: 20px;
+      background-color: #00FFFF;
+      border-radius: 50%;
       position: absolute;
-      background: #FFDAD4;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #DC143C, 0 0 16px #DC143C;
-      animation: twinkle 10s infinite ease-in-out;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 10px #00FFFF, 0 0 20px #00FFFF;
     }
 
-    .star:nth-child(1) { width: 6px; height: 6px; top: 15%; left: 20%; animation-duration: 8s; }
-    .star:nth-child(2) { width: 8px; height: 8px; top: 40%; left: 35%; animation-duration: 12s; }
-    .star:nth-child(3) { width: 5px; height: 5px; top: 60%; left: 50%; animation-duration: 9s; }
-    .star:nth-child(4) { width: 7px; height: 7px; top: 25%; left: 70%; animation-duration: 11s; }
-    .star:nth-child(5) { width: 4px; height: 4px; top: 80%; left: 85%; animation-duration: 7s; }
-
-    .nebula-particle {
-      position: absolute;
-      background: linear-gradient(45deg, #DC143C, #FF4500);
-      border-radius: 50%;
-      animation: drift 15s infinite linear;
-    }
-
-    .nebula-particle:nth-child(6) { width: 10px; height: 10px; top: 30%; left: 10%; animation-duration: 14s; }
-    .nebula-particle:nth-child(7) { width: 12px; height: 12px; top: 50%; left: 60%; animation-duration: 16s; }
-    .nebula-particle:nth-child(8) { width: 9px; height: 9px; top: 70%; left: 25%; animation-duration: 13s; }
-
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.8; transform: scale(1); }
-      50% { opacity: 0.3; transform: scale(1.2); }
-    }
-
-    @keyframes drift {
-      0% { transform: translate(0, 0); opacity: 0.7; }
-      50% { opacity: 0.4; }
-      100% { transform: translate(100vw, -50vh); opacity: 0.7; }
-    }
-
-    /* Quantum Nebula Burst Animation */
-    .opening-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1000;
-      background: #1C0000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .nebula-burst {
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #8B0000 10%, #DC143C 60%, transparent);
-      box-shadow: 0 0 80px #DC143C, 0 0 160px rgba(220, 20, 60, 0.5);
-      animation: nebula-pulse 2.8s ease-in-out forwards;
-      position: relative;
-      transform: scale(0.5);
-    }
-
-    .energy-wave {
+    .orbit {
       position: absolute;
       width: 100%;
       height: 100%;
+      border: 2px solid rgba(255, 255, 255, 0.2);
       border-radius: 50%;
-      border: 2px solid #FF4500;
-      opacity: 0.6;
-      animation: wave-expand 1.5s ease-out infinite;
+      animation: rotate 5s linear infinite;
     }
 
-    .energy-wave:nth-child(2) { animation-delay: 0.3s; }
-    .energy-wave:nth-child(3) { animation-delay: 0.6s; }
-
-    .burst-particle {
+    .orbit::before {
+      content: '';
       position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #FFDAD4;
+      top: -10px;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      background-color: #00FFFF;
       border-radius: 50%;
-      box-shadow: 0 0 12px #DC143C;
-      animation: particle-explode 1.2s ease-out forwards;
+      box-shadow: 0 0 10px #00FFFF, 0 0 20px #00FFFF;
     }
 
-    .burst-particle:nth-child(1) { top: 20%; left: 30%; animation-delay: 0.1s; }
-    .burst-particle:nth-child(2) { top: 40%; left: 65%; animation-delay: 0.2s; }
-    .burst-particle:nth-child(3) { top: 60%; left: 25%; animation-delay: 0.3s; }
-    .burst-particle:nth-child(4) { top: 75%; left: 50%; animation-delay: 0.4s; }
-    .burst-particle:nth-child(5) { top: 30%; left: 80%; animation-delay: 0.15s; }
-    .burst-particle:nth-child(6) { top: 50%; left: 15%; animation-delay: 0.25s; }
-    .burst-particle:nth-child(7) { top: 65%; left: 70%; animation-delay: 0.35s; }
-
-    @keyframes nebula-pulse {
-      0% { transform: scale(0.5) rotate(0deg); opacity: 0; }
-      50% { transform: scale(2.2) rotate(180deg); opacity: 1; }
-      100% { transform: scale(0.1) rotate(360deg); opacity: 0; }
+    .orbit:nth-child(2) {
+      width: 150%;
+      height: 150%;
+      animation-duration: 7s;
     }
 
-    @keyframes wave-expand {
-      0% { transform: scale(1); opacity: 0.6; }
-      100% { transform: scale(3); opacity: 0; }
+    .orbit:nth-child(3) {
+      width: 200%;
+      height: 200%;
+      animation-duration: 10s;
     }
 
-    @keyframes particle-explode {
-      0% { transform: translate(0, 0) scale(1); opacity: 1; }
-      100% { transform: translate(calc(100px * (var(--direction-x, 1))), calc(100px * (var(--direction-y, 1)))) scale(0.4); opacity: 0; }
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
-    /* Button Styles */
+    /* Existing Styles */
     .btn {
-      --color: #FFDAD4;
-      --color2: #8B0000;
-      width: 220px;
-      padding: 1em 2em;
-      background: rgba(220, 20, 60, 0.2);
-      border-radius: 8px;
-      border: 2px solid var(--color);
-      transition: all 0.4s ease;
+      --color: #e5f5f1;
+      --color2: rgb(0, 0, 0);
+      width: 200px;
+      padding: 0.8em 1.75em;
+      background-color: transparent;
+      border-radius: 6px;
+      border: .3px solid var(--color);
+      transition: .5s;
       position: relative;
       overflow: hidden;
       cursor: pointer;
       z-index: 1;
-      font-weight: 500;
-      font-size: 18px;
+      font-weight: 300;
+      font-size: 17px;
       font-family: 'Roboto', 'Segoe UI', sans-serif;
       text-transform: uppercase;
       color: var(--color);
-      margin-bottom: 20px;
-      box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
-      backdrop-filter: blur(5px);
+      margin-bottom: 24px;
     }
 
     .btn::after, .btn::before {
       content: '';
-      position: absolute;
+      display: block;
       height: 100%;
       width: 100%;
-      transform: skew(45deg) translate(-50%, -50%);
+      transform: skew(90deg) translate(-50%, -50%);
+      position: absolute;
       inset: 50%;
       left: 25%;
       z-index: -1;
-      transition: all 0.4s ease-out;
-      background: linear-gradient(45deg, #DC143C, #FF4500);
+      transition: .5s ease-out;
+      background-color: var(--color);
     }
 
     .btn::before {
       top: -50%;
       left: -25%;
-      transform: skew(45deg) rotate(180deg) translate(-50%, -50%);
+      transform: skew(90deg) rotate(180deg) translate(-50%, -50%);
     }
 
     .btn:hover::before {
@@ -195,127 +139,141 @@
 
     .btn:hover {
       color: var(--color2);
-      box-shadow: 0 6px 20px rgba(220, 20, 60, 0.5);
-      transform: translateY(-3px);
     }
 
     .btn:active {
-      transform: scale(0.95);
-      filter: brightness(0.85);
+      filter: brightness(.7);
+      transform: scale(.98);
     }
 
-    /* Content Container */
-    .content-container {
-      opacity: 0;
-      transition: opacity 0.5s ease;
+    .story {
+      margin: 20px;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.8);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
-    .content-container.visible {
-      opacity: 1;
+    .audio-controls {
+      margin-top: 20px;
     }
 
-    /* Copyright */
-    .copyright {
-      margin-top: 30px;
-      text-align: center;
-      color: #FFDAD4;
+    .hacker-button {
+      background-color: #FFFF33;
+      color: #6633FF;
+      border: 2px solid #3300FF;
+      padding: 10px 20px;
       font-size: 16px;
-      font-family: 'Roboto', 'Segoe UI', sans-serif;
+      cursor: pointer;
+      margin-right: 10px;
     }
 
-    .copyright p {
-      margin: 8px 0;
+    .hacker-button:hover {
+      background-color: #f00;
+      color: #FF33FF;
     }
 
-    .copyright b {
-      color: #DC143C;
+    .contact-details {
+      margin-top: 20px;
+      color: #990099;
     }
 
-    /* Responsive Design */
-    @media (max-width: 600px) {
-      .btn {
-        width: 180px;
-        font-size: 16px;
-        padding: 0.8em 1.5em;
-      }
+    .copyright {
+      margin-top: 20px;
+      color: #FFFF00;
+    }
 
-      .nebula-burst {
-        width: 200px;
-        height: 200px;
-      }
+    .news-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      font-family: "Roboto", sans-serif;
+      box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.3);
+    }
 
-      .burst-particle {
-        width: 6px;
-        height: 6px;
-      }
+    .news-container .title {
+      position: absolute;
+      background: #df2020;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      color: white;
+      font-weight: bold;
+      z-index: 200;
+    }
 
-      .star, .nebula-particle {
-        transform: scale(0.8);
-      }
+    .news-container ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      animation: scroll 25s infinite linear;
+    }
 
-      .copyright {
-        font-size: 14px;
+    .news-container ul li {
+      white-space: nowrap;
+      padding: 10px 24px;
+      color: #494949;
+      position: relative;
+    }
+
+    .news-container ul li::after {
+      content: "";
+      width: 1px;
+      height: 100%;
+      background: #b8b8b8;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    .news-container ul li:last-child::after {
+      display: none;
+    }
+
+    @keyframes scroll {
+      from {
+        transform: translateX(100%);
+      }
+      to {
+        transform: translateX(-1083px);
       }
     }
   </style>
 </head>
 <body>
-  <!-- Quantum Nebula Burst Animation -->
-  <div id="opening-overlay" class="opening-overlay">
-    <div class="nebula-burst">
-      <div class="energy-wave"></div>
-      <div class="energy-wave"></div>
-      <div class="energy-wave"></div>
-      <div class="burst-particle" style="--direction-x: -1; --direction-y: -1;"></div>
-      <div class="burst-particle" style="--direction-x: 1; --direction-y: -1;"></div>
-      <div class="burst-particle" style="--direction-x: -1; --direction-y: 1;"></div>
-      <div class="burst-particle" style="--direction-x: 1; --direction-y: 1;"></div>
-      <div class="burst-particle" style="--direction-x: 0; --direction-y: 0.5;"></div>
-      <div class="burst-particle" style="--direction-x: 0.5; --direction-y: -0.5;"></div>
-      <div class="burst-particle" style="--direction-x: -0.5; --direction-y: 0;"></div>
+  <!-- Atomic Animation -->
+  <div class="atomic-animation">
+    <div class="nucleus"></div>
+    <div class="orbit"></div>
+    <div class="orbit"></div>
+    <div class="orbit"></div>
+  </div>
+
+  <div class="news-container">
+    <div class="title">
+      Hello there
     </div>
+    <ul>
+      <li>welcome to xhclinton solutions!</li>
+      <li>Here you will get session ids for your whatsapp bots</li>
+      <li>Toxic Md and others</li>
+    </ul>
   </div>
 
-  <!-- Cosmic Background Animation -->
-  <div class="cosmic-background">
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="star"></div>
-    <div class="nebula-particle"></div>
-    <div class="nebula-particle"></div>
-    <div class="nebula-particle"></div>
-  </div>
-
-  <!-- Content -->
-  <div class="content-container">
-    <button onclick="window.open(`/qr`)" class="btn">QR Code</button>
-    <button onclick="window.open(`/pair`)" class="btn">Pair Code</button>
+  <center>
+    <button onclick="window.open(`/qr`)" class="btn">qr code</button>
+    <button onclick="window.open(`/pair`)" class="btn">pair code</button>
+    <button onclick="window.open(`https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2Fxhclintohn%2FToxic-MD&team=juni3&template=https%3A%2F%2Fgithub.com%2Fxhclintohn%2FToxic-MD.git`)" class="btn">deploy Toxic-MD</button>
     <button onclick="window.open(`https://github.com/xhclintohn/Toxic-MD/fork`)" class="btn">Fork Toxic-MD</button>
-    <button onclick="window.open(`https://github.com/xhclintohn/xh_clinton-V2`)" class="btn">Open Toxic-MD Repo</button>
+    <button onclick="window.open(`https://github.com/xhclintohn/Toxic-MD`)" class="btn">Open Toxic-MD Repo</button>
+  </center>
 
-    <div class="copyright">
-      <p>© Toxic-𝐌𝐃 2025</p>
-      <p>𝐃𝐞𝐬𝐢𝐠𝐧𝐞𝐝 𝐁𝐲 <b>𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧(official)</b> 𝐅𝐨𝐫 𝐘𝐨𝐮 👌</p>
-    </div>
+  <div class="copyright">
+    <center>
+      <p>© 𝐓𝐨𝐱𝐢𝐜-𝐌𝐃 2025</p>
+      <p>𝐃𝐞𝐬𝐢𝐠𝐧𝐞𝐝 𝐁𝐲 <b>𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧</b> 𝐅𝐨𝐫 𝐘𝐨𝐮 👌</p>
+    </center>
   </div>
-
-  <script>
-    // Handle opening animation
-    window.onload = function() {
-      const openingOverlay = document.getElementById('opening-overlay');
-      const contentContainer = document.querySelector('.content-container');
-
-      // Hide content initially
-      contentContainer.classList.remove('visible');
-
-      // Trigger opening animation after a short delay
-      setTimeout(() => {
-        openingOverlay.style.display = 'none';
-        contentContainer.classList.add('visible');
-      }, 2800); // 2.8 seconds for the nebula burst effect
-    };
-  </script>
 </body>
 </html>
