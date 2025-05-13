@@ -11,8 +11,8 @@
   "author": "Toxic Tech",
   "license": "GPL-3.0 license",
   "dependencies": {
-    "@whiskeysockets/baileys": "latest",
-    "baileys-elite": "latest",
+        "@whiskeysockets/baileys": "npm:@fizzxydev/baileys-pro@8.5.12",
+    "maher-zubair-baileys": "latest",
     "qrcode": "^1.5.3",
     "awesome-phonenumber": "^2.64.0",
     "pino": "^8.1.0",
