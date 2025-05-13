@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger: pino({level: "fatal"}).child({level: "fatal"}),
-                browser: ["Chrome", "Ubuntu"] // Unified browser configuration
+                browser: ["Chrome (Ubuntu)"] // Unified browser configuration
              });
              if(!Pair_Code_By_Toxic_Tech.authState.creds.registered) {
                 await delay(1500);
