@@ -45,18 +45,19 @@ router.get('/', async (req, res) => {
                  }
             Pair_Code_By_Toxic_Tech.ev.on('creds.update', saveCreds)
             Pair_Code_By_Toxic_Tech.ev.on("connection.update", async (s) => {
-                const {
-                    connection,
-                    lastDisconnect
-                } = s;
-                if (connection == "open") {
-                await delay(5000);
-                let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
-                await delay(800);
-               let b64data = Buffer.from(data).toString('base64');
-               let session = await Pair_Code_By_Toxic_Tech.sendMessage(Pair_Code_By_Toxic_Tech.user.id, { text: '' + b64data });
+                try {
+                    const {
+                        connection,
+                        lastDisconnect
+                    } = s;
+                    if (connection == "open") {
+                        await delay(5000);
+                        let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
+                        await delay(800);
+                        let b64data = Buffer.from(data).toString('base64');
+                        let session = await Pair_Code_By_Toxic_Tech.sendMessage(Pair_Code_By_Toxic_Tech.user.id, { text: '' + b64data });
 
-               let Toxic_MD_TEXT = `
+                        let Toxic_MD_TEXT = `
         𝙎𝙀𝙎𝙎𝙄𝙊𝙉 𝘾𝙊𝙉𝙉𝙀𝘾𝙏𝙀𝘿
         
          𝙏𝙤𝙭𝙞𝙘-𝙈𝘿 𝙇𝙤𝙜𝙜𝙚𝙙  
@@ -80,23 +81,30 @@ _https://chat.whatsapp.com/GoXKLVJgTAAC3556FXkfFI_
 
 Don't Forget To Give Star⭐ To My Repo :)`
 
- await Pair_Code_By_Toxic_Tech.sendMessage(Pair_Code_By_Toxic_Tech.user.id,{text:Toxic_MD_TEXT},{quoted:session})
+                        await Pair_Code_By_Toxic_Tech.sendMessage(Pair_Code_By_Toxic_Tech.user.id,{text:Toxic_MD_TEXT},{quoted:session})
 
-
-        await delay(100);
-        await Pair_Code_By_Toxic_Tech.ws.close();
-        return await removeFile('./temp/'+id);
-            } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
-                    await delay(10000);
-                    Toxic_MD_PAIR_CODE();
+                        await delay(100);
+                        await Pair_Code_By_Toxic_Tech.ws.close();
+                        return await removeFile('./temp/'+id);
+                    } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
+                        console.log("Connection closed with error:", lastDisconnect.error.message || lastDisconnect.error);
+                        await delay(10000);
+                        Toxic_MD_PAIR_CODE();
+                    }
+                } catch (connErr) {
+                    console.log("Error in connection.update:", connErr.message || connErr);
+                    await removeFile('./temp/'+id);
+                    if (!res.headersSent) {
+                        await res.send({code: "Service Currently Unavailable"});
+                    }
                 }
             });
         } catch (err) {
-            console.log("service restated");
+            console.log("Service restarted due to error:", err.message || err);
             await removeFile('./temp/'+id);
-         if(!res.headersSent){
-            await res.send({code:"Service Currently Unavailable"});
-         }
+            if(!res.headersSent){
+                await res.send({code:"Service Currently Unavailable"});
+            }
         }
     }
     return await Toxic_MD_PAIR_CODE()
