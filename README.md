@@ -22,6 +22,6 @@
 
 Tap the button below to go to the main repo for deployment/installation instructions.
 
-[![DEVELOPERS GITHUB ACCOUNT](https://img.shields.io/badge/VIEW%20MAIN%20REPO-Click%20Here-brightblue?style=for-the-badge)](https://github.com/xhclintohn)
+[![DEVELOPERS GITHUB ACCOUNT](https://img.shields.io/badge/OPEN%20DEVELOPER%20ACCOUNT-Click%20Here-brightblue?style=for-the-badge)](https://github.com/xhclintohn)
 
 ---
