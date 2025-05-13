@@ -14,7 +14,7 @@ const {
 	Browsers,
 	delay,
 	makeInMemoryStore,
-} = require("@whiskeysockets/baileys");
+} = require("baileys-elite");
 
 function removeFile(FilePath) {
 	if (!fs.existsSync(FilePath)) return false;
