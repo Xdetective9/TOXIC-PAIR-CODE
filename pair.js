@@ -23,8 +23,22 @@ router.get("/", async (req, res) => {
     const id = makeid();
     let num = req.query.number;
 
+    // Validate phone number
+    if (!num) {
+        return res.status(400).send({ error: "Phone number is required." });
+    }
+
+    // Ensure phone number is in international format
+    num = num.replace(/[^0-9+]/g, ""); // Remove non-numeric characters except +
+    if (!num.startsWith("+")) {
+        return res.status(400).send({ error: "Phone number must start with a country code (e.g., +254)." });
+    }
+
     async function Toxic_MD_PAIR_CODE() {
         try {
+            // Clean up any existing session to avoid conflicts
+            removeFile(`./temp/${id}`);
+
             const { state, saveCreds } = await useMultiFileAuthState(`./temp/${id}`);
 
             const Pair_Code_By_Toxic_Tech = Toxic_Tech({
@@ -38,9 +52,11 @@ router.get("/", async (req, res) => {
             });
 
             if (!Pair_Code_By_Toxic_Tech.authState.creds.registered) {
-                await delay(1500);
-                num = num.replace(/[^0-9]/g, "");
+                await delay(2000); // Increased delay to ensure WhatsApp server readiness
                 const code = await Pair_Code_By_Toxic_Tech.requestPairingCode(num);
+                if (!code) {
+                    throw new Error("Failed to generate pairing code.");
+                }
                 if (!res.headersSent) {
                     res.send({ code });
                 }
@@ -90,7 +106,7 @@ Don't Forget To Give Star⭐ To My Repo :)`;
                 } else if (lastDisconnect?.error?.output?.statusCode === 401) {
                     removeFile(`./temp/${id}`);
                     if (!res.headersSent) {
-                        res.send({ code: "Session logged out. Please try again." });
+                        res.send({ error: "Session logged out. Please try again with a new code." });
                     }
                 }
             });
@@ -98,7 +114,7 @@ Don't Forget To Give Star⭐ To My Repo :)`;
             console.error("Error in Toxic_MD_PAIR_CODE:", err);
             removeFile(`./temp/${id}`);
             if (!res.headersSent) {
-                res.send({ code: "Service Currently Unavailable" });
+                res.send({ error: "Service Currently Unavailable. Please try again later." });
             }
         }
     }
