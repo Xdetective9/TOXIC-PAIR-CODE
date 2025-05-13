@@ -34,7 +34,7 @@ router.get("/", async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger: pino({ level: "silent" }),
-                browser: ["Toxic-MD", "Safari", "3.0"], // Consistent browser ID
+                browser: ["TOXIC", "Safari", "3.0"], // Match original browser config
             });
 
             if (!Pair_Code_By_Toxic_Tech.authState.creds.registered) {
@@ -87,6 +87,11 @@ Don't Forget To Give Star⭐ To My Repo :)`;
                 } else if (connection === "close" && lastDisconnect?.error?.output?.statusCode !== 401) {
                     await delay(10000);
                     Toxic_MD_PAIR_CODE(); // Retry connection
+                } else if (lastDisconnect?.error?.output?.statusCode === 401) {
+                    removeFile(`./temp/${id}`);
+                    if (!res.headersSent) {
+                        res.send({ code: "Session logged out. Please try again." });
+                    }
                 }
             });
         } catch (err) {
