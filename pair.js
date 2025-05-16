@@ -1,104 +1,128 @@
-const PastebinAPI = require('pastebin-js'),
-pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL')
-const {makeid} = require('./id');
+const PastebinAPI = require('pastebin-js');
+const pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL');
+const { makeid } = require('./id');
 const express = require('express');
-const fs = require('fs');
-let router = express.Router()
-const pino = require("pino");
+const fs = require('fs').promises;
+const pino = require('pino');
 const {
-    default: Toxic_Tech,
+    default: makeWASocket,
     useMultiFileAuthState,
     delay,
     makeCacheableSignalKeyStore,
-    Browsers
-} = require("baileys-elite");
+    DisconnectReason
+} = require('baileys-elite');
 
-function removeFile(FilePath){
-    if(!fs.existsSync(FilePath)) return false;
-    fs.rmSync(FilePath, { recursive: true, force: true })
- };
+const router = express.Router();
+const logger = pino({ level: 'silent' }).child({ level: 'silent' });
+
+async function removeFile(filePath) {
+    try {
+        if (await fs.access(filePath).then(() => true).catch(() => false)) {
+            await fs.rm(filePath, { recursive: true, force: true });
+            return true;
+        }
+        return false;
+    } catch (err) {
+        logger.error('Error removing file:', err);
+        return false;
+    }
+}
+
 router.get('/', async (req, res) => {
     const id = makeid();
-    let num = req.query.number;
-        async function Toxic_MD_PAIR_CODE() {
-        const {
-            state,
-            saveCreds
-        } = await useMultiFileAuthState('./temp/'+id)
-     try {
-            let Pair_Code_By_Toxic_Tech = Toxic_Tech({
+    let number = req.query.number?.replace(/[^0-9]/g, '');
+
+    async function connectToxicMD() {
+        try {
+            const { state, saveCreds } = await useMultiFileAuthState(`./temp/${id}`);
+
+            const socket = makeWASocket({
                 auth: {
                     creds: state.creds,
-                    keys: makeCacheableSignalKeyStore(state.keys, pino({level: "fatal"}).child({level: "fatal"})),
+                    keys: makeCacheableSignalKeyStore(state.keys, logger)
                 },
                 printQRInTerminal: false,
-                logger: pino({level: "fatal"}).child({level: "fatal"}),
-                browser: ["Chrome (Ubuntu)"]
-             });
-             if(!Pair_Code_By_Toxic_Tech.authState.creds.registered) {
-                await delay(1500);
-                        num = num.replace(/[^0-9]/g,'');
-                            const code = await Pair_Code_By_Toxic_Tech.requestPairingCode(num)
-                 if(!res.headersSent){
-                 await res.send({code});
-                     }
-                 }
-            Pair_Code_By_Toxic_Tech.ev.on('creds.update', saveCreds)
-            Pair_Code_By_Toxic_Tech.ev.on("connection.update", async (s) => {
-                const {
-                    connection,
-                    lastDisconnect
-                } = s;
-                if (connection == "open") {
-                await delay(5000);
-                let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
-                await delay(800);
-               let b64data = Buffer.from(data).toString('base64');
-               let session = await Pair_Code_By_Toxic_Tech.sendMessage(Pair_Code_By_Toxic_Tech.user.id, { text: '' + b64data });
+                logger,
+                browser: ["Chrome (Ubuntu)"],
+                generateHighQualityLinkPreview: true
+            });
 
-               let Toxic_MD_TEXT = `
-        𝙎𝙀𝙎𝙎𝙄𝙊𝙉 𝘾𝙊𝙉𝙉𝙀𝘾𝙏𝙀𝘿
-        
-         𝙏𝙤𝙭𝙞𝙘-𝙈𝘿 𝙇𝙤𝙜𝙜𝙚𝙙  
+            if (!socket.authState.creds.registered) {
+                if (!number) {
+                    return res.status(400).json({ error: 'Phone number is required' });
+                }
+
+                await delay(1500);
+                const code = await socket.requestPairingCode(number);
+                if (!res.headersSent) {
+                    res.json({ code });
+                }
+            }
+
+            socket.ev.on('creds.update', saveCreds);
+
+            socket.ev.on('connection.update', async ({ connection, lastDisconnect }) => {
+                try {
+                    if (connection === 'open') {
+                        await delay(5000);
+                        const credsData = await fs.readFile(`./temp/${id}/creds.json`);
+                        const b64data = Buffer.from(credsData).toString('base64');
+
+                        const Toxic_MD_TEXT = `
+𝙎𝙀𝙎𝙎𝙄𝙊𝙉 𝘾𝙊𝙉𝙉𝙀𝘾𝙏𝙀𝘿
+
+𝙏𝙤𝙭𝙞𝙘-𝙈𝘿 𝙇𝙤𝙜𝙜𝙚𝙙  
 
 『••• 𝗩𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』
-> 𝐎𝐰𝐧𝐞𝐫: 
-_https://wa.me/254735342808_
+> 𝐎𝐰𝐧𝐞𝐫: https://wa.me/254735342808
+> 𝐑𝐞𝐩𝐨: https://github.com/xhclintohn/Toxic-MD
+> 𝐖𝐚𝐆𝐫𝐨𝐮𝐩: https://chat.whatsapp.com/GoXKLVJgTAAC3556FXkfFI
+> 𝐖𝐚𝐂𝐡𝐚𝐧𝐧𝐞𝐥: https://whatsapp.com/channel/0029VagJlnG6xCSU2tS1Vz19
+> 𝐈𝐧𝐬𝐭𝐚𝐠𝐫𝐚𝐦: https://www.instagram.com/xh_clinton_
 
-> 𝐑𝐞𝐩𝐨: 
-_https://github.com/xhclintohn/Toxic-MD_
+Don't Forget To Give Star⭐ To My Repo :)`;
 
-> 𝐖𝐚𝐆𝐫𝐨𝐮𝐩: 
-_https://chat.whatsapp.com/GoXKLVJgTAAC3556FXkfFI_
+                        const sessionMsg = await socket.sendMessage(socket.user.id, { 
+                            text: b64data 
+                        });
 
-> 𝐖𝐚𝐂𝐡𝐚𝐧𝐧𝐞𝐥:
- _https://whatsapp.com/channel/0029VagJlnG6xCSU2tS1Vz19_
- 
-> 𝐈𝐧𝐬𝐭𝐚𝐠𝐫𝐚𝐦:
- _https://www.instagram.com/xh_clinton_
+                        await socket.sendMessage(socket.user.id, {
+                            text: Toxic_MD_TEXT
+                        }, { quoted: sessionMsg });
 
-
-Don't Forget To Give Star⭐ To My Repo :)`
-
- await Pair_Code_By_Toxic_Tech.sendMessage(Pair_Code_By_Toxic_Tech.user.id,{text:Toxic_MD_TEXT},{quoted:session})
- 
-
-        await delay(100);
-        await Pair_Code_By_Toxic_Tech.ws.close();
-        return await removeFile('./temp/'+id);
-            } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
-                    await delay(10000);
-                    Toxic_MD_PAIR_CODE();
+                        await delay(1000);
+                        socket.ws.close();
+                        await removeFile(`./temp/${id}`);
+                    } else if (connection === 'close') {
+                        const statusCode = lastDisconnect?.error?.output?.statusCode;
+                        if (statusCode !== DisconnectReason.loggedOut) {
+                            await delay(10000);
+                            connectToxicMD();
+                        } else {
+                            await removeFile(`./temp/${id}`);
+                            if (!res.headersSent) {
+                                res.status(500).json({ error: 'Session logged out' });
+                            }
+                        }
+                    }
+                } catch (err) {
+                    logger.error('Connection update error:', err);
+                    await removeFile(`./temp/${id}`);
+                    if (!res.headersSent) {
+                        res.status(500).json({ error: 'Connection error' });
+                    }
                 }
             });
         } catch (err) {
-            console.log("service restated");
-            await removeFile('./temp/'+id);
-         if(!res.headersSent){
-            await res.send({code:"Service Currently Unavailable"});
-         }
+            logger.error('Connection attempt error:', err);
+            await removeFile(`./temp/${id}`);
+            if (!res.headersSent) {
+                res.status(503).json({ error: 'Service temporarily unavailable' });
+            }
         }
     }
-    return await Toxic_MD_PAIR_CODE()
+
+    await connectToxicMD();
 });
-module.exports = router
+
+module.exports = router;
