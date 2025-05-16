@@ -30,7 +30,7 @@ async function removeFile(filePath) {
 
 router.get('/', async (req, res) => {
     const id = makeid();
-    let number = req.query.number?.replace(/[^0-9]/g, '');
+    let phoneNumber = req.query.number?.replace(/[^0-9]/g, '');
 
     async function connectToxicMD() {
         try {
@@ -43,19 +43,32 @@ router.get('/', async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger,
-                browser: ["Chrome (Ubuntu)"],
+                browser: ['Toxic-MD', 'Chrome', 'Ubuntu'],
                 generateHighQualityLinkPreview: true
             });
 
             if (!socket.authState.creds.registered) {
-                if (!number) {
+                if (!phoneNumber) {
                     return res.status(400).json({ error: 'Phone number is required' });
                 }
 
-                await delay(1500);
-                const code = await socket.requestPairingCode(number);
-                if (!res.headersSent) {
-                    res.json({ code });
+                try {
+                    await delay(1500);
+                    // Custom pairing code as per baileys-elite documentation
+                    const customCode = 'TOXICMD1'; // 8-character custom code
+                    const code = await socket.requestPairingCode(phoneNumber, customCode);
+                    const formattedCode = code?.match(/.{1,4}/g)?.join('-') || code;
+
+                    if (!res.headersSent) {
+                        res.json({ code: formattedCode });
+                    }
+                } catch (pairingError) {
+                    logger.error('Pairing code error:', pairingError);
+                    await removeFile(`./temp/${id}`);
+                    if (!res.headersSent) {
+                        res.status(500).json({ error: 'Failed to generate pairing code' });
+                    }
+                    return;
                 }
             }
 
