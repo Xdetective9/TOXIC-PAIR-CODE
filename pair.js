@@ -54,13 +54,10 @@ router.get('/', async (req, res) => {
 
                 try {
                     await delay(1500);
-                    // Custom pairing code as per baileys-elite documentation
-                    const customCode = 'TOXICMD1'; // 8-character custom code
-                    const code = await socket.requestPairingCode(phoneNumber, customCode);
-                    const formattedCode = code?.match(/.{1,4}/g)?.join('-') || code;
-
+                    // Revert to standard pairing code without custom code
+                    const code = await socket.requestPairingCode(phoneNumber);
                     if (!res.headersSent) {
-                        res.json({ code: formattedCode });
+                        res.json({ code });
                     }
                 } catch (pairingError) {
                     logger.error('Pairing code error:', pairingError);
@@ -88,54 +85,4 @@ router.get('/', async (req, res) => {
 
 『••• 𝗩𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』
 > 𝐎𝐰𝐧𝐞𝐫: https://wa.me/254735342808
-> 𝐑𝐞𝐩𝐨: https://github.com/xhclintohn/Toxic-MD
-> 𝐖𝐚𝐆𝐫𝐨𝐮𝐩: https://chat.whatsapp.com/GoXKLVJgTAAC3556FXkfFI
-> 𝐖𝐚𝐂𝐡𝐚𝐧𝐧𝐞𝐥: https://whatsapp.com/channel/0029VagJlnG6xCSU2tS1Vz19
-> 𝐈𝐧𝐬𝐭𝐚𝐠𝐫𝐚𝐦: https://www.instagram.com/xh_clinton_
-
-Don't Forget To Give Star⭐ To My Repo :)`;
-
-                        const sessionMsg = await socket.sendMessage(socket.user.id, { 
-                            text: b64data 
-                        });
-
-                        await socket.sendMessage(socket.user.id, {
-                            text: Toxic_MD_TEXT
-                        }, { quoted: sessionMsg });
-
-                        await delay(1000);
-                        socket.ws.close();
-                        await removeFile(`./temp/${id}`);
-                    } else if (connection === 'close') {
-                        const statusCode = lastDisconnect?.error?.output?.statusCode;
-                        if (statusCode !== DisconnectReason.loggedOut) {
-                            await delay(10000);
-                            connectToxicMD();
-                        } else {
-                            await removeFile(`./temp/${id}`);
-                            if (!res.headersSent) {
-                                res.status(500).json({ error: 'Session logged out' });
-                            }
-                        }
-                    }
-                } catch (err) {
-                    logger.error('Connection update error:', err);
-                    await removeFile(`./temp/${id}`);
-                    if (!res.headersSent) {
-                        res.status(500).json({ error: 'Connection error' });
-                    }
-                }
-            });
-        } catch (err) {
-            logger.error('Connection attempt error:', err);
-            await removeFile(`./temp/${id}`);
-            if (!res.headersSent) {
-                res.status(503).json({ error: 'Service temporarily unavailable' });
-            }
-        }
-    }
-
-    await connectToxicMD();
-});
-
-module.exports = router;
+>
