@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger,
-                browser: ['Toxic-MD', 'Chrome', 'Ubuntu'],
+                browser: ['Xdetective', 'Chrome', 'Ubuntu'],
                 generateHighQualityLinkPreview: true
             });
 
@@ -81,8 +81,8 @@ router.get('/', async (req, res) => {
                         const Toxic_MD_TEXT = `
 𝙎𝙀𝙎𝙎𝙄𝙊𝙉 𝘾𝙊𝙉𝙉𝙀𝘾𝙏𝙀𝘿
 
-𝙏𝙤𝙭𝙞𝙘-𝙈𝘿 𝙇𝙤𝙜𝙜𝙚𝙙  
+Xdetective 𝙇𝙤𝙜𝙜𝙚𝙙  
 
 『••• 𝗩𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』
-> 𝐎𝐰𝐧𝐞𝐫: https://wa.me/254735342808
+> 𝐎𝐰𝐧𝐞𝐫: https://wa.me/923288055104
 >
